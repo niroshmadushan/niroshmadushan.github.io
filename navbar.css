@@ -1,0 +1,77 @@
+/* Sidebar (Vertical Navbar) Styles */
+.navbar {
+    height: 100vh; /* Full height of the viewport */
+    width: 230px; /* Adjust the width as needed */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #333; /* Dark background for the sidebar */
+    display: flex;
+    flex-direction: column; /* Align items in a column */
+    color: white;
+    padding-top: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    padding-top: 15px;
+}
+
+/* Navbar Brand */
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 30px;
+    padding-left: 20px;
+    text-align: left;
+}
+
+/* Navbar Links */
+.navbar-links {
+    display: flex;
+    flex-direction: column; /* Arrange buttons vertically */
+    flex-grow: 1;
+    justify-content: flex-start;
+}
+
+.navbar-links button {
+    background: none;
+    border: none;
+    color: #fff;
+    padding: 15px 20px;
+    text-align: left;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 90%; /* Full width of the sidebar */
+    border-left: 4px solid transparent; /* Create space for active highlight */
+    transition: background-color 0.3s ease, border-left 0.3s ease;
+    margin-left: 10px;
+}
+
+.navbar-links button i.material-icons {
+    margin-right: 10px;
+}
+
+.navbar-links button:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Lighten background on hover */
+    border-left: 4px solid #fff; /* Highlight active button with border */
+}
+
+/* Logout Button */
+#logoutBtn {
+    background-color: #e74c3c;
+    margin-top: auto; /* Push logout button to the bottom */
+    border-left: 4px solid transparent;
+}
+
+#logoutBtn:hover {
+    background-color: #c0392b;
+    border-left: 4px solid #fff;
+}
+
+/* Active button (optional for showing the active state) */
+.navbar-links button.active {
+    background-color: rgba(255, 255, 255, 0.2); /* Different background for active state */
+    border-left: 4px solid #3498db; /* Active border color */
+}

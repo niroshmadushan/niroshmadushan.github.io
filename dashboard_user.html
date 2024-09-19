@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Link to external styles -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Include Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Link to Navbar CSS (optional if you have separate navbar styles) -->
+    <link rel="stylesheet" href="navbar.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if the user is logged in
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const userRole = localStorage.getItem('userRole');
+
+            // If not logged in, redirect to login page
+            if (!isLoggedIn || isLoggedIn !== 'true') {
+                window.location.href = 'index.html'; // Change this to the path of your login page
+                return;
+            }
+
+            // If the user is not an admin, hide the "Manage Users" button
+            if (userRole !== 'admin') {
+                const manageUsersButton = document.getElementById('manageUsersButton');
+                if (manageUsersButton) {
+                    manageUsersButton.style.display = 'none'; // Hide the button
+                }
+            }
+        });
+
+        // Function to handle navigation (used in the navbar buttons)
+        function navigateTo(path) {
+            window.location.href = path;
+        }
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="navbar-brand">
+            <span id="userRole">Admin Panel</span>
+        </div>
+        <nav class="navbar-links">
+            <!-- Admin Links -->
+            <div class="admin-links">
+                <button onclick="navigateTo('dashboard_user.html')"><i class="material-icons">dashboard</i> Dashboard</button>
+                <button onclick="navigateTo('bookfrom_user.html')"><i class="material-icons">book</i> Bookings</button>
+                <button onclick="navigateTo('payment_form_user.html')"><i class="material-icons">payment</i> Payments</button>
+                <button onclick="navigateTo('account_settings_user.html')"><i class="material-icons">settings</i> Account Settings</button>
+                <button onclick="navigateTo('inventory_management_user.html')"><i class="material-icons">inventory</i> Inventory Fix</button>
+                <button onclick="navigateTo('inventory_management_userv.html')"><i class="material-icons">inventory</i> Inventory Non Fix</button>
+                <button onclick="navigateTo('viewbook_user.html')"><i class="material-icons">visibility</i> View Bookings</button>
+                <button onclick="navigateTo('cansel_user.html')"><i class="material-icons">book</i> Cansel Bookings</button>
+                <button id="logoutBtn" onclick="handleLogout()"><i class="material-icons">logout</i> Logout</button>
+            </div>
+            <!-- Logout Button -->
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+
+        <!-- Metrics Section -->
+        <div class="metrics">
+            <div class="metric-card" id="totalBookings">
+                <h3>Total Bookings</h3>
+                <p id="totalBookingsCount">0</p>
+            </div>
+            <div class="metric-card" id="pendingPayments">
+                <h3>Pending Payments</h3>
+                <p id="pendingPaymentsCount">0</p>
+            </div>
+            
+            <div class="metric-card" id="pendingPayments1">
+                <h3>Unpaid Bokking</h3>
+                <p id="pendingPaymentsCount1">0</p>
+            </div>
+            <div class="metric-card" id="pendingPayments2">
+                <h3>Cansel Booking</h3>
+                <p id="pendingPaymentsCount2">0</p>
+            </div>
+        </div>
+
+        <!-- Recent Bookings Table -->
+        <div class="table-container">
+            <h2>Recent Bookings</h2>
+            <table id="bookingsTable">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Guest Name</th>
+                        <th>Check-In</th>
+                        <th>Check-Out</th>
+                        <th>Room Type</th>
+                        <th>Guests</th>
+                        <th>User Email</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Booking Details Modal -->
+        <div id="bookingModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="bookingDetails">
+                    <!-- Booking details will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include JavaScript files -->
+    <script src="navbar.js"></script> <!-- Script for handling navbar logic -->
+    <script src="script.js"></script> <!-- Your existing script file for dashboard -->
+</body>
+</html>

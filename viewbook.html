@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Bookings</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Include Google Material Icons for icons in the navbar -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Link to Navbar CSS if needed -->
+    <link rel="stylesheet" href="navbar.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if the user is logged in
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const userRole = localStorage.getItem('userRole');
+
+            // If not logged in, redirect to login page
+            if (!isLoggedIn || isLoggedIn !== 'true') {
+                window.location.href = 'index.html'; // Change this to the path of your login page
+                return;
+            }
+
+            // If the user is not an admin, hide the "Manage Users" button
+            if (userRole !== 'admin') {
+                const manageUsersButton = document.getElementById('manageUsersButton');
+                if (manageUsersButton) {
+                    manageUsersButton.style.display = 'none'; // Hide the button
+                }
+            }
+        });
+
+        // Function to handle navigation (used in the navbar buttons)
+        function navigateTo(path) {
+            window.location.href = path;
+        }
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="navbar-brand">
+            <span id="userRole">User Panel</span>
+        </div>
+        <nav class="navbar-links">
+            <!-- Admin Links -->
+            <div class="admin-links">
+                <button onclick="navigateTo('dashboard.html')"><i class="material-icons">dashboard</i> Dashboard</button>
+                <button onclick="navigateTo('user_management.html')"><i class="material-icons">people</i> Manage Users</button>
+                <button onclick="navigateTo('bookfrom.html')"><i class="material-icons">book</i> Bookings</button>
+                <button onclick="navigateTo('payment_form.html')"><i class="material-icons">payment</i> Payments</button>
+                <button onclick="navigateTo('account_settings.html')"><i class="material-icons">settings</i> Account Settings</button>
+                <button onclick="navigateTo('inventory_management.html')"><i class="material-icons">inventory</i> Inventory Fix</button>
+                <button onclick="navigateTo('inventory_managementv.html')"><i class="material-icons">inventory</i> Inventory Non Fix</button>
+                <button onclick="navigateTo('viewbook.html')"><i class="material-icons">visibility</i> View Bookings</button>
+                <button onclick="navigateTo('cansel.html')"><i class="material-icons">book</i> Cansel Bookings</button>
+                <button id="logoutBtn" onclick="handleLogout()"><i class="material-icons">logout</i> Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container" style="margin-top: 100px;"> <!-- Add margin-top for spacing from the navbar -->
+        <h1>View Bookings</h1>
+        
+        <!-- Search and Filter Section -->
+        <div class="search-filter">
+            <input type="text" id="searchTerm" placeholder="Search by Booking ID, Guest Name, Email, NIC/Passport">
+            <select id="statusFilter">
+                <option value="">All</option>
+                <option value="Paid">Paid</option>
+                <option value="Pending">Pending</option>
+                <option value="Unpaid">Unpaid</option>
+            </select>
+            <button id="searchBtn">Search</button>
+        </div>
+
+        <!-- Bookings Table -->
+        <div class="table-container">
+            <table id="bookingsTable">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Guest Name</th>
+                        <th>NIC/Passport ID</th>
+                        <th>Check-In</th>
+                        <th>Check-Out</th>
+                        <th>Room Type</th>
+                        <th>Guests</th>
+                        <th>User Email</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Booking rows will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Booking Details Modal -->
+        <div id="bookingModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="bookingDetails">
+                    <!-- Booking details will be dynamically added here -->
+                </div>
+                <button id="printPdfBtn">Print Report</button>
+            </div>
+        </div>
+
+        <div id="printableArea" >
+            <div class="print-header">
+               
+            </div>
+            <div id="printableContent" style="display: none;">
+                <!-- The content to be printed will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Include JavaScript files -->
+    <script src="navbar.js"></script> <!-- Script for handling navbar logic -->
+    <script src="view_bookings.js"></script>
+</body>
+</html>

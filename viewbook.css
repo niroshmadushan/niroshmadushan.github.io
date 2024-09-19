@@ -1,0 +1,371 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: #f5f8fa;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1976d2;
+    padding: 15px;
+    width: 100%;  /* Ensure full width */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 15px;
+}
+
+.navbar-links button {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-links button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+.navbar-links i {
+    font-size: 1.2rem;
+}
+
+body {
+    padding-top: 60px;
+}
+
+/* Page Specific Styles */
+h1 {
+    color: #1976d2;
+    margin-bottom: 20px;
+    text-align: center;
+    margin-top: -10px;
+}
+
+.search-filter {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.search-filter input,
+.search-filter select,
+.search-filter button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    outline: none;
+}
+
+.search-filter input {
+    flex: 2;
+}
+
+.search-filter select {
+    flex: 1;
+}
+
+.search-filter button {
+    background-color: #1976d2;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-filter button:hover {
+    background-color: #125ea2;
+}
+
+/* Table Styles */
+.table-container {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 700px;
+    height: 700px;
+    overflow-y: scroll;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.container table thead {
+    background-color: #1976d2;
+    color: #fff;
+}
+
+.container table th, table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.container table tbody tr:hover {
+    background-color: #f0f4ff;
+    cursor: pointer;
+}
+
+#bookingsTable td {
+    text-align: center;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Print Styles */
+#printableArea {
+    display: none;
+}
+
+#printableArea .print-header h2 {
+    color: #1976d2;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .search-filter {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    table thead {
+        display: none;
+    }
+
+    table tbody tr {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 2px solid #ddd;
+        margin-bottom: 10px;
+    }
+
+    table tbody tr td {
+        display: block;
+        text-align: right;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    table tbody tr td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 50%;
+        padding-left: 15px;
+        font-weight: bold;
+        text-align: left;
+    }
+}
+
+
+/* Modal Styles *//* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px; /* Adjust the width as necessary */
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Two-column layout */
+.modal-content-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.modal-row {
+    flex: 1 1 45%; /* Adjust this value to control column width */
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.modal-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.modal-value {
+    padding: 5px;
+    background-color: #f2f2f2;
+    border-radius: 4px;
+}
+
+/* Hide other content when printing */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #printableArea, #printableArea * {
+        visibility: visible;
+    }
+    #printableArea {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+}
+/* Styles for the Printable Area */
+#printableArea {
+    display: none;
+}
+
+.print-header h2 {
+    color: #1976d2;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.print-content-columns {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.print-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.print-label {
+    flex: 1;
+    font-weight: bold;
+    text-align: left;
+    padding-right: 10px;
+}
+
+.print-value {
+    flex: 1;
+    text-align: left;
+}
+
+/* Ensure proper spacing for printing */
+@media print {
+    body {
+        font-size: 14px;
+        line-height: 1.5;
+        color: #000;
+    }
+
+    #printableArea {
+        display: block;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        text-align: left;
+    }
+
+    .print-row {
+        margin-bottom: 8px;
+    }
+}

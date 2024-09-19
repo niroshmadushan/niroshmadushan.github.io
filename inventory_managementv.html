@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Include Google Material Icons for icons in the navbar -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Include SweetAlert2 CSS for better alert messages -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Link to Navbar CSS if needed -->
+    <link rel="stylesheet" href="navbar.css">
+    <script>
+        // Redirect to login page if not logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+            // If isLoggedIn is not true, redirect to login page
+            if (!isLoggedIn || isLoggedIn !== 'true') {
+                window.location.href = 'index.html'; // Change this to the path of your login page
+            }
+        });
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="navbar-brand">
+            <span id="userRole">Admin Panel</span>
+        </div>
+        <nav class="navbar-links">
+            <!-- Admin Links -->
+            <div class="admin-links">
+                <button onclick="navigateTo('dashboard.html')"><i class="material-icons">dashboard</i> Dashboard</button>
+                <button onclick="navigateTo('user_management.html')"><i class="material-icons">people</i> Manage Users</button>
+                <button onclick="navigateTo('bookfrom.html')"><i class="material-icons">book</i> Bookings</button>
+                <button onclick="navigateTo('payment_form.html')"><i class="material-icons">payment</i> Payments</button>
+                <button onclick="navigateTo('account_settings.html')"><i class="material-icons">settings</i> Account Settings</button>
+                <button onclick="navigateTo('inventory_management.html')"><i class="material-icons">inventory </i> Inventory fix</button>
+                <button onclick="navigateTo('inventory_managementv.html')"><i class="material-icons">inventory </i> Inventory Non Fix</button>
+                <button onclick="navigateTo('viewbook.html')"><i class="material-icons">visibility</i> View Bookings</button>
+                <button onclick="navigateTo('cansel.html')"><i class="material-icons">book</i> Cansel Bookings</button>
+                <button id="logoutBtn" onclick="handleLogout()"><i class="material-icons">logout</i> Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <h1>Inventory Management Non Fix Assests</h1>
+
+        <!-- Search and Action Buttons -->
+        <div class="actions">
+            <input type="text" id="searchTerm" placeholder="Search by Product Name">
+            <button id="openAddProductModal">Add Product</button>
+            <button id="openGRNModal">GRN</button>
+            <button id="openGONModal">GON</button>
+            <button id="printReportBtn">Generate Report</button>
+        </div>
+
+        <!-- Inventory Table -->
+        <table id="inventoryTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Total Value (Rs.)</th>
+                    <th>Last Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Inventory rows will be dynamically added here -->
+            </tbody>
+        </table>
+
+        <h2>Total Stock Value: Rs.<span id="totalStockValue">0.00</span></h2>
+
+        <!-- Add Product Modal -->
+        <div id="addProductModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Add Product</h3>
+                <input type="text" id="productName" placeholder="Product Name">
+                <button id="addProductBtn">Add Product</button>
+            </div>
+        </div>
+
+        <!-- GRN Modal -->
+        <div id="grnModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Goods Received Note (GRN)</h3>
+                <select id="grnProductSelect"></select>
+                <input type="number" id="grnQuantity" placeholder="Quantity">
+                <input type="number" id="grnUnitPrice" placeholder="Unit Price (Rs)">
+                <button id="addGRNBtn">Add GRN</button>
+            </div>
+        </div>
+
+        <!-- GON Modal -->
+        <div id="gonModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Goods Out Note (GON)</h3>
+                <select id="gonProductSelect"></select>
+                <input type="number" id="gonQuantity" placeholder="Quantity">
+                <button id="addGONBtn">Add GON</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include SweetAlert2 and the main JavaScript files -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="navbar.js"></script> <!-- Script for handling navbar logic -->
+    <script src="inventory_managementv.js"></script> <!-- Main JavaScript file for inventory management -->
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Include SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Include Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Include Navbar CSS if you have a separate file -->
+    <link rel="stylesheet" href="navbar.css">
+   <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if the user is logged in
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const userRole = localStorage.getItem('userRole');
+
+            // If not logged in, redirect to login page
+            if (!isLoggedIn || isLoggedIn !== 'true') {
+                window.location.href = 'index.html'; // Change this to the path of your login page
+                return;
+            }
+
+            // If the user is not an admin, hide the "Manage Users" button
+            if (userRole !== 'admin') {
+                const manageUsersButton = document.getElementById('manageUsersButton');
+                if (manageUsersButton) {
+                    manageUsersButton.style.display = 'none'; // Hide the button
+                }
+            }
+        });
+
+        // Function to handle navigation (used in the navbar buttons)
+        function navigateTo(path) {
+            window.location.href = path;
+        }
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="navbar-brand">
+            <span id="userRole">Admin Panel</span>
+        </div>
+        <nav class="navbar-links">
+            <!-- Admin Links -->
+            <div class="admin-links">
+                <button onclick="navigateTo('dashboard.html')"><i class="material-icons">dashboard</i> Dashboard</button>
+                <button onclick="navigateTo('user_management.html')"><i class="material-icons">people</i> Manage Users</button>
+                <button onclick="navigateTo('bookfrom.html')"><i class="material-icons">book</i> Bookings</button>
+                <button onclick="navigateTo('payment_form.html')"><i class="material-icons">payment</i> Payments</button>
+                <button onclick="navigateTo('account_settings.html')"><i class="material-icons">settings</i> Account Settings</button>
+                <button onclick="navigateTo('inventory_management.html')"><i class="material-icons">inventory </i> Inventory fix</button>
+                <button onclick="navigateTo('inventory_managementv.html')"><i class="material-icons">inventory </i> Inventory Non Fix</button>
+                <button onclick="navigateTo('viewbook.html')"><i class="material-icons">visibility</i> View Bookings</button>
+                <button onclick="navigateTo('cansel.html')"><i class="material-icons">book</i> Cansel Bookings</button>
+                <button id="logoutBtn" onclick="handleLogout()"><i class="material-icons">logout</i> Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="account-settings-wrapper">
+            <div class="form-card">
+                <h2>Account Settings</h2>
+                <form id="accountSettingsForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <div class="input-icon">
+                            <span class="material-icons">email</span>
+                            <input type="email" id="email" name="email" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        <div class="input-icon">
+                            <span class="material-icons">person</span>
+                            <input type="text" id="role" name="role" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <div class="input-icon">
+                            <span class="material-icons">lock</span>
+                            <input type="password" id="currentPassword" name="currentPassword">
+                            <span class="material-icons toggle-password" id="toggleCurrentPassword">visibility</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">New Password</label>
+                        <div class="input-icon">
+                            <span class="material-icons">lock</span>
+                            <input type="password" id="password" name="password">
+                            <span class="material-icons toggle-password" id="togglePassword">visibility</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <div class="input-icon">
+                            <span class="material-icons">lock</span>
+                            <input type="password" id="confirmPassword" name="confirmPassword">
+                            <span class="material-icons toggle-password" id="toggleConfirmPassword">visibility</span>
+                        </div>
+                    </div>
+                    <button type="submit" id="updatePasswordBtn">Update Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include SweetAlert2 script -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="navbar.js"></script> <!-- Include navbar.js to handle navigation -->
+    <script src="account_settings.js"></script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Form</title>
+    <link rel="stylesheet" href="PayemnetForm.css">
+    <!-- Include SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Include Google Material Icons for the navbar -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Include Navbar CSS if needed -->
+    <link rel="stylesheet" href="navbar.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if the user is logged in
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const userRole = localStorage.getItem('userRole');
+
+            // If not logged in, redirect to login page
+            if (!isLoggedIn || isLoggedIn !== 'true') {
+                window.location.href = 'index.html'; // Change this to the path of your login page
+                return;
+            }
+
+            // If the user is not an admin, hide the "Manage Users" button
+            if (userRole !== 'admin') {
+                const manageUsersButton = document.getElementById('manageUsersButton');
+                if (manageUsersButton) {
+                    manageUsersButton.style.display = 'none'; // Hide the button
+                }
+            }
+        });
+
+        // Function to handle navigation (used in the navbar buttons)
+        function navigateTo(path) {
+            window.location.href = path;
+        }
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="navbar-brand">
+            <span id="userRole">Admin Panel</span>
+        </div>
+        <nav class="navbar-links">
+            <!-- Admin Links -->
+            <div class="admin-links">
+                <button onclick="navigateTo('dashboard_user.html')"><i class="material-icons">dashboard</i> Dashboard</button>
+                <button onclick="navigateTo('bookfrom_user.html')"><i class="material-icons">book</i> Bookings</button>
+                <button onclick="navigateTo('payment_form_user.html')"><i class="material-icons">payment</i> Payments</button>
+                <button onclick="navigateTo('account_settings_user.html')"><i class="material-icons">settings</i> Account Settings</button>
+                <button onclick="navigateTo('inventory_management_user.html')"><i class="material-icons">inventory</i> Inventory Fix</button>
+                <button onclick="navigateTo('inventory_management_userv.html')"><i class="material-icons">inventory</i> Inventory Non Fix</button>
+                <button onclick="navigateTo('viewbook_user.html')"><i class="material-icons">visibility</i> View Bookings</button>
+                <button onclick="navigateTo('cansel_user.html')"><i class="material-icons">book</i> Cansel Bookings</button>
+                <button id="logoutBtn" onclick="handleLogout()"><i class="material-icons">logout</i> Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="payment-form-wrapper">
+            <div class="grid-container">
+                <!-- Left Side: Payment Form -->
+                <div class="grid-item payment-form">
+                    <div class="form-card">
+                        <h2>Cansel Form</h2>
+                        <div id="paidMessage" class="error-message"></div> <!-- Message for paid bookings -->
+                        <form id="paymentForm">
+                            <!-- Booking ID with updated icon -->
+                            <div class="form-group">
+                                <label for="bookingId">Booking ID</label>
+                                <div class="input-icon">
+                                    <span class="icon">&#128214;</span> <!-- Changed to calendar icon -->
+                                    <input type="text" id="bookingId" name="bookingId">
+                                </div>
+                            </div>
+                            <div class="form-group" hidden>
+                                <label for="paymentMethod">Payment Method</label>
+                                <div class="input-icon">
+                                    <span class="icon">&#128179;</span>
+                                    <select id="paymentMethod" name="paymentMethod">
+                                        <option value="">Select Payment Method</option>
+                                        <option value="Credit Card">Credit Card</option>
+                                        <option value="Cash">Cash</option>
+                                        <option value="Online Payment">Online Payment</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" hidden>
+                                <label for="amountPaid">Amount Paid (Rs.)</label>
+                                <div class="input-icon">
+                                    <span class="icon">&#36;</span>
+                                    <input type="number" id="amountPaid" name="amountPaid">
+                                </div>
+                            </div>
+                            <div class="form-group" hidden>
+                                <label for="balanceDue">Balance Due (Rs.)</label>
+                                <div class="input-icon">
+                                    <span class="icon">&#36;</span>
+                                    <input type="number" id="balanceDue" name="balanceDue">
+                                </div>
+                            </div>
+                            <div class="form-group" hidden>
+                                <label for="paymentDate">Payment Date</label>
+                                <div class="input-icon">
+                                    <span class="icon">&#128197;</span>
+                                    <input type="date" id="paymentDate" name="paymentDate">
+                                </div>
+                            </div>
+                            <div class="form-group" hidden> 
+                                <label for="reference">Reference</label>
+                                <div class="input-icon">
+                                    <span class="icon">&#128221;</span> <!-- Reference icon -->
+                                    <input type="text" id="reference" name="reference">
+                                </div>
+                            </div>
+                            <!-- Enhanced Payment Status Field -->
+                            <div class="form-group">
+                                <label for="paymentStatus">Status</label>
+                                <div class="input-icon">
+                                    <span class="icon">&#128179;</span>
+                                    <select id="paymentStatus" name="paymentStatus">
+                                        <option value="Cansel" selected>Cansel</option>
+                                      
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" id="submitBtn">Submit Payment</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Right Side: Booking & Guest Details -->
+                <div class="grid-item booking-details">
+                    <div class="form-card">
+                        <h2>Booking & Guest Details</h2>
+                        <div id="bookingDetails">
+                            <p>Enter a valid Booking ID to see details.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include SweetAlert2 script -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="navbar.js"></script> <!-- Include navbar.js to handle navigation -->
+    <script src="cansel.js"></script>
+</body>
+</html>

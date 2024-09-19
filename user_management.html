@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Include Google Material Icons for icons in the navbar -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Include SweetAlert2 CSS for better alert messages -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Include Navbar CSS if needed -->
+    <link rel="stylesheet" href="navbar.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if the user is logged in
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const userRole = localStorage.getItem('userRole');
+
+            // If not logged in, redirect to login page
+            if (!isLoggedIn || isLoggedIn !== 'true') {
+                window.location.href = 'index.html'; // Change this to the path of your login page
+                return;
+            }
+
+            // If the user is not an admin, hide the "Manage Users" button
+            if (userRole !== 'admin') {
+                const manageUsersButton = document.getElementById('manageUsersButton');
+                if (manageUsersButton) {
+                    manageUsersButton.style.display = 'none'; // Hide the button
+                }
+            }
+        });
+
+        // Function to handle navigation (used in the navbar buttons)
+        function navigateTo(path) {
+            window.location.href = path;
+        }
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="navbar-brand">
+            <span id="userRole">Admin Panel</span>
+        </div>
+        <nav class="navbar-links">
+            <!-- Admin Links -->
+            <div class="admin-links">
+                <button onclick="navigateTo('dashboard.html')"><i class="material-icons">dashboard</i> Dashboard</button>
+                <button onclick="navigateTo('user_management.html')"><i class="material-icons">people</i> Manage Users</button>
+                <button onclick="navigateTo('bookfrom.html')"><i class="material-icons">book</i> Bookings</button>
+                <button onclick="navigateTo('payment_form.html')"><i class="material-icons">payment</i> Payments</button>
+                <button onclick="navigateTo('account_settings.html')"><i class="material-icons">settings</i> Account Settings</button>
+                <button onclick="navigateTo('inventory_management.html')"><i class="material-icons">inventory </i> Inventory fix</button>
+                <button onclick="navigateTo('inventory_managementv.html')"><i class="material-icons">inventory </i> Inventory Non Fix</button>
+                <button onclick="navigateTo('viewbook.html')"><i class="material-icons">visibility</i> View Bookings</button>
+                <button onclick="navigateTo('cansel.html')"><i class="material-icons">book</i> Cansel Bookings</button>
+                <button id="logoutBtn" onclick="handleLogout()"><i class="material-icons">logout</i> Logout</button>
+            </div>
+            <!-- Logout Button -->
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <h style="color: white;"> test</h1>
+        <h1>User Management</h1>
+        <!-- Add User Form -->
+        <div class="form-container">
+            <input type="text" id="newName" placeholder="Name">
+            <input type="text" id="newEmail" placeholder="Email">
+            <select id="newRole">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
+            <button id="addUserButton">Add User</button>
+        </div>
+
+        <!-- User Table -->
+        <table id="userTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Active Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Users will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Include SweetAlert2 and script for managing users -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="navbar.js"></script> <!-- Include navbar.js to handle navigation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userTableBody = document.querySelector('#userTable tbody');
+            const addUserButton = document.getElementById('addUserButton');
+
+            // Fetch users from the backend
+            const fetchUsers = async () => {
+                try {
+                    const response = await fetch('get_users.php');
+                    const users = await response.json();
+                    displayUsers(users);
+                } catch (error) {
+                    console.error('Error fetching users:', error);
+                    Swal.fire('Error', 'Failed to fetch users.', 'error');
+                }
+            };
+
+            // Display users in the table
+            const displayUsers = (users) => {
+                userTableBody.innerHTML = ''; // Clear existing rows
+                users.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${user.id}</td>
+                        <td><input type="text" value="${user.email}" data-id="${user.id}" class="edit-email"></td>
+                        <td>
+                            <select data-id="${user.id}" class="edit-role">
+                                <option value="user" ${user.role === 'user' ? 'selected' : ''}>User</option>
+                                <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>Admin</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select data-id="${user.id}" class="edit-active">
+                                <option value="active" ${user.active === 'active' ? 'selected' : ''}>Active</option>
+                                <option value="inactive" ${user.active === 'inactive' ? 'selected' : ''}>Inactive</option>
+                            </select>
+                        </td>
+                        <td><button class="save-button" data-id="${user.id}">Save</button></td>
+                    `;
+                    userTableBody.appendChild(row);
+                });
+                attachEventListeners();
+            };
+
+            // Attach event listeners to the save buttons
+            const attachEventListeners = () => {
+                document.querySelectorAll('.save-button').forEach(button => {
+                    button.addEventListener('click', async (e) => {
+                        const userId = e.target.dataset.id;
+                        const email = document.querySelector(`.edit-email[data-id="${userId}"]`).value;
+                        const role = document.querySelector(`.edit-role[data-id="${userId}"]`).value;
+                        const active = document.querySelector(`.edit-active[data-id="${userId}"]`).value;
+
+                        // Send the updated user data to the backend
+                        try {
+                            const response = await fetch('update_user.php', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ id: userId, email, role, active })
+                            });
+
+                            const result = await response.json();
+                            if (result.success) {
+                                Swal.fire('Success', 'User updated successfully.', 'success');
+                                fetchUsers(); // Refresh the user list
+                            } else {
+                                Swal.fire('Error', result.message || 'Failed to update user.', 'error');
+                            }
+                        } catch (error) {
+                            console.error('Error updating user:', error);
+                            Swal.fire('Error', 'Failed to update user.', 'error');
+                        }
+                    });
+                });
+            };
+
+            // Add user functionality
+            addUserButton.addEventListener('click', async () => {
+                const newName = document.getElementById('newName').value;
+                const newEmail = document.getElementById('newEmail').value;
+                const newRole = document.getElementById('newRole').value;
+
+                if (newName && newEmail) {
+                    try {
+                        const response = await fetch('add_user.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ name: newName, email: newEmail, role: newRole })
+                        });
+
+                        const result = await response.json();
+                        if (result.success) {
+                            Swal.fire('Success', 'User added successfully.', 'success');
+                            fetchUsers(); // Refresh the user list
+                        } else {
+                            Swal.fire('Error', result.message || 'Failed to add user.', 'error');
+                        }
+                    } catch (error) {
+                        console.error('Error adding user:', error);
+                        Swal.fire('Error', 'Failed to add user.', 'error');
+                    }
+                } else {
+                    Swal.fire('Warning', 'Please fill in all the required fields.', 'warning');
+                }
+            });
+
+            fetchUsers(); // Initial fetch on page load
+        });
+    </script>
+</body>
+</html>

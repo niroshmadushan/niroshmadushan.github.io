@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Form</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Include SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Include Google Material Icons for the navbar -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Include Navbar CSS if needed -->
+    <link rel="stylesheet" href="navbar.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if the user is logged in
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const userRole = localStorage.getItem('userRole');
+
+            // If not logged in, redirect to login page
+            if (!isLoggedIn || isLoggedIn !== 'true') {
+                window.location.href = 'index.html'; // Change this to the path of your login page
+                return;
+            }
+
+            // If the user is not an admin, hide the "Manage Users" button
+            if (userRole !== 'admin') {
+                const manageUsersButton = document.getElementById('manageUsersButton');
+                if (manageUsersButton) {
+                    manageUsersButton.style.display = 'none'; // Hide the button
+                }
+            }
+        });
+
+        // Function to handle navigation (used in the navbar buttons)
+        function navigateTo(path) {
+            window.location.href = path;
+        }
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="navbar-brand">
+            <span id="userRole">User Panel</span>
+        </div>
+        <nav class="navbar-links">
+            <!-- Admin Links -->
+            <div class="admin-links">
+                <button onclick="navigateTo('dashboard_user.html')"><i class="material-icons">dashboard</i> Dashboard</button>
+                <button onclick="navigateTo('bookfrom_user.html')"><i class="material-icons">book</i> Bookings</button>
+                <button onclick="navigateTo('payment_form_user.html')"><i class="material-icons">payment</i> Payments</button>
+                <button onclick="navigateTo('account_settings_user.html')"><i class="material-icons">settings</i> Account Settings</button>
+                <button onclick="navigateTo('inventory_management_user.html')"><i class="material-icons">inventory</i> Inventory Fix</button>
+                <button onclick="navigateTo('inventory_management_userv.html')"><i class="material-icons">inventory</i> Inventory Non Fix</button>
+                <button onclick="navigateTo('viewbook_user.html')"><i class="material-icons">visibility</i> View Bookings</button>
+                <button onclick="navigateTo('cansel_user.html')"><i class="material-icons">book</i> Cansel Bookings</button>
+                <button id="logoutBtn" onclick="handleLogout()"><i class="material-icons">logout</i> Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="booking-form-wrapper">
+            <div class="form-card">
+                <h2>Booking Form</h2>
+                <form id="bookingForm">
+                    <div class="form-grid">
+                        <!-- Guest Name -->
+                        <div class="form-group">
+                            <label for="guestName">Guest Name</label>
+                            <div class="input-icon">
+                                <span class="icon">&#128100;</span>
+                                <input type="text" id="guestName" name="guestName">
+                            </div>
+                            <span class="error-message" id="error-guestName"></span>
+                        </div>
+                        <!-- Guest Phone -->
+                        <div class="form-group">
+                            <label for="guestPhone">Guest Phone</label>
+                            <div class="input-icon">
+                                <span class="icon">&#128222;</span>
+                                <input type="text" id="guestPhone" name="guestPhone">
+                            </div>
+                            <span class="error-message" id="error-guestPhone"></span>
+                        </div>
+                        <!-- Guest Email -->
+                        <div class="form-group">
+                            <label for="guestEmail">Guest Email</label>
+                            <div class="input-icon">
+                                <span class="icon">&#9993;</span>
+                                <input type="email" id="guestEmail" name="guestEmail">
+                            </div>
+                            <span class="error-message" id="error-guestEmail"></span>
+                        </div>
+                        <!-- Address -->
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <div class="input-icon">
+                                <span class="icon">&#127968;</span>
+                                <input type="text" id="address" name="address">
+                            </div>
+                            <span class="error-message" id="error-address"></span>
+                        </div>
+                        <!-- ID/Passport -->
+                        <div class="form-group">
+                            <label for="idPassport">ID/Passport No</label>
+                            <div class="input-icon">
+                                <span class="icon">&#128706;</span>
+                                <input type="text" id="idPassport" name="idPassport">
+                            </div>
+                            <span class="error-message" id="error-idPassport"></span>
+                        </div>
+                        <!-- Check-In Date -->
+                        <div class="form-group">
+                            <label for="checkInDate">Check-In Date</label>
+                            <div class="input-icon">
+                                <span class="icon">&#128197;</span>
+                                <input type="date" id="checkInDate" name="checkInDate">
+                            </div>
+                            <span class="error-message" id="error-checkInDate"></span>
+                        </div>
+                        <!-- Check-Out Date -->
+                        <div class="form-group">
+                            <label for="checkOutDate">Check-Out Date</label>
+                            <div class="input-icon">
+                                <span class="icon">&#128197;</span>
+                                <input type="date" id="checkOutDate" name="checkOutDate">
+                            </div>
+                            <span class="error-message" id="error-checkOutDate"></span>
+                        </div>
+                        <!-- Room Type -->
+                        <div class="form-group">
+                            <label for="roomType">Room Type</label>
+                            <div class="input-icon">
+                                <span class="icon">&#127970;</span>
+                                <select id="roomType" name="roomType">
+                                    <option value="">Select Room Type</option>
+                                    <option value="Single">Single</option>
+                                    <option value="Double">Double</option>
+                                    <option value="Suite">Suite</option>
+                                </select>
+                            </div>
+                            <span class="error-message" id="error-roomType"></span>
+                        </div>
+                        <!-- Number of Rooms -->
+                        <div class="form-group">
+                            <label for="numRooms">Number of Rooms</label>
+                            <div class="input-icon">
+                                <span class="icon">&#127970;</span>
+                                <input type="number" id="numRooms" name="numRooms" min="1">
+                            </div>
+                            <span class="error-message" id="error-numRooms"></span>
+                        </div>
+                        <!-- Number of Guests -->
+                        <div class="form-group">
+                            <label for="numGuests">Number of Guests</label>
+                            <div class="input-icon">
+                                <span class="icon">&#128101;</span>
+                                <input type="number" id="numGuests" name="numGuests" min="1">
+                            </div>
+                            <span class="error-message" id="error-numGuests"></span>
+                        </div>
+                        <!-- Arrival Time -->
+                        <div class="form-group">
+                            <label for="arrivalTime">Arrival Time</label>
+                            <div class="input-icon">
+                                <span class="icon">&#128336;</span>
+                                <input type="time" id="arrivalTime" name="arrivalTime">
+                            </div>
+                            <span class="error-message" id="error-arrivalTime"></span>
+                        </div>
+                        <!-- Departure Time -->
+                        <div class="form-group">
+                            <label for="departureTime">Departure Time</label>
+                            <div class="input-icon">
+                                <span class="icon">&#128337;</span>
+                                <input type="time" id="departureTime" name="departureTime">
+                            </div>
+                            <span class="error-message" id="error-departureTime"></span>
+                        </div>
+                        <!-- Arrival Meal -->
+                        <div class="form-group">
+                            <label for="arrivalMeal">Arriving Meal</label>
+                            <div class="input-icon">
+                                <span class="icon">&#127829;</span>
+                                <select id="arrivalMeal" name="arrivalMeal">
+                                    <option value="">Select Meal</option>
+                                    <option value="BREAKFAST">Breakfast</option>
+                                    <option value="LUNCH">Lunch</option>
+                                    <option value="DINNER">Dinner</option>
+                                    <option value="None">None</option>
+                                </select>
+                            </div>
+                            <span class="error-message" id="error-arrivalMeal"></span>
+                        </div>
+                        <!-- Departure Meal -->
+                        <div class="form-group">
+                            <label for="departureMeal">Departure Meal</label>
+                            <div class="input-icon">
+                                <span class="icon">&#127829;</span>
+                                <select id="departureMeal" name="departureMeal">
+                                    <option value="">Select Meal</option>
+                                    <option value="BREAKFAST">Breakfast</option>
+                                    <option value="LUNCH">Lunch</option>
+                                    <option value="DINNER">Dinner</option>
+                                    <option value="None">None</option>
+                                </select>
+                            </div>
+                            <span class="error-message" id="error-departureMeal"></span>
+                        </div>
+                        <!-- Special Requests (full width) -->
+                        <div class="form-group full-width">
+                            <label for="specialRequests">Special Requests</label>
+                            <div class="input-icon">
+                                <span class="icon">&#128172;</span>
+                                <textarea id="specialRequests" name="specialRequests" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit">Book Now</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Include SweetAlert2 script -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="navbar.js"></script> <!-- Include navbar.js to handle navigation -->
+    <script src="booking_form.js"></script>
+</body>
+</html>
